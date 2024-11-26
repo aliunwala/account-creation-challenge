@@ -6,31 +6,60 @@ import { CreateUser } from './routes/signup/create-user/create-user.tsx';
 import { Deposit } from './routes/signup/deposit/deposit.tsx';
 import { JointAccess } from './routes/signup/joint-access/joint-access.tsx';
 import { StockRestrictions } from './routes/signup/stock-restrictions/stock-restrictions.tsx';
-
+import { CreateAccount } from './routes/account/create-account.tsx';
+import { PrivateRouter } from './reusable-components/privateRouter/privateRouter.tsx';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
+    element: (
+      <PrivateRouter>
+        <Root />
+      </PrivateRouter>
+    ),
+  },
+  {
+    path: '/create-account',
+    element: <CreateAccount />,
   },
   {
     path: '/signup/account-selection',
-    element: <AccountSelection />,
+    element: (
+      <PrivateRouter>
+        <AccountSelection />
+      </PrivateRouter>
+    ),
   },
   {
     path: '/signup/create-user',
-    element: <CreateUser />,
+    element: (
+      <PrivateRouter>
+        <CreateUser />
+      </PrivateRouter>
+    ),
   },
   {
     path: '/signup/joint-access',
-    element: <JointAccess />,
+    element: (
+      <PrivateRouter>
+        <JointAccess />
+      </PrivateRouter>
+    ),
   },
   {
     path: '/signup/stock-restrictions',
-    element: <StockRestrictions />,
+    element: (
+      <PrivateRouter>
+        <StockRestrictions />
+      </PrivateRouter>
+    ),
   },
   {
     path: '/signup/deposit',
-    element: <Deposit />,
+    element: (
+      <PrivateRouter>
+        <Deposit />
+      </PrivateRouter>
+    ),
   },
 ]);
 
