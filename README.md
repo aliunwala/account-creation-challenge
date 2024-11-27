@@ -23,9 +23,11 @@ To run this package you need to do a one time run of:
 1. `make -j dev`
 2. `npm install`
 
-Then to see your package come up on http://localhost:3000/create-account run:
+Then to see the webpage run:
 
-3. `bin/rails s`
+1. `bin/rails s`
+
+and navigate to http://localhost:3000/create-account
 
 Helpful notes:
 
