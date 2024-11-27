@@ -53,8 +53,9 @@ export function CreateAccount() {
         throw Error(respBody.error + '. Status Code: ' + response.status);
       }
       const { token } = await response.json();
-      console.log('token');
-      console.log(token);
+      // console.log('token');
+      // console.log(token);
+      // localStorage.setItem('wealthFrontToken', token);
       localStorage.setItem('wealthFrontToken', JSON.stringify(token));
       nav('/signup/account-selection');
       // await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -105,7 +106,7 @@ export function CreateAccount() {
               isDisabled={isSubmitting}
               type="submit"
             >
-              {isSubmitting ? 'Loading...' : 'Submit'}
+              {isSubmitting ? 'Loading...' : 'Create Account'}
             </Button>
           </div>
 
