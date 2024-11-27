@@ -16,13 +16,14 @@ gem "sqlite3", "~> 1.4"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
 
+gem 'dotenv-rails', groups: [:development, :test]
+
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails", "1.2.1"
 
 gem 'zxcvbn', '0.1.9'
 
 gem 'jwt'
-
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails", "1.4.0"

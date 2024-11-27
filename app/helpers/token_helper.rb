@@ -1,17 +1,17 @@
 
 module TokenHelper
   require 'jwt'
+  require 'dotenv'
+
 
   # Returns a token
   def encodeToken(payload)
-    # TODO: Make this into a ENV variable, need to explore how to do this in RoR
-    secret = "PIJ6qEh*z3BfgQ%nn@@26XVcUTIx4w%J&2Vwgi9G&x1DYeeS8Zd9i@2c1TnZL"  
+    secret = ENV["SECRET_KEY_TOKEN"]
     JWT.encode(payload, secret)
   end
   
   def decodeToken(token)
-    # TODO: Make this into a ENV variable, need to explore how to do this in RoR
-    secret = "PIJ6qEh*z3BfgQ%nn@@26XVcUTIx4w%J&2Vwgi9G&x1DYeeS8Zd9i@2c1TnZL"  
+    secret = ENV["SECRET_KEY_TOKEN"]
     if token.is_a? String
       token = JSON.parse(token)
     end
