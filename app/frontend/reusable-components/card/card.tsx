@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Logo } from 'app/frontend/static/logo';
+import { Logo } from 'app/frontend/logo/logo';
 interface Props {
   children: ReactNode;
   title: string;
