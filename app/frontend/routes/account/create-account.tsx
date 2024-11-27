@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FlowLayout } from 'app/frontend/reusable-components/flow-layout/flow-layout';
 import { Card } from 'app/frontend/reusable-components/card/card';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import { Button } from 'app/frontend/reusable-components/button/button';
 import PasswordStrengthBar from './password-strength-bar';
+import Eye from 'app/frontend/icons/eyeIcon';
+import EyeSlash from 'app/frontend/icons/eyeSlashIcon';
 const schema = z.object({
   username: z.string().min(10).max(50),
   password: z
@@ -33,11 +35,23 @@ export function CreateAccount() {
     defaultValues: {
       username: '',
       password: '',
-
-      // username: 'ali@gmail.com',
-      // password: '12312321312321312kjhkh',
     },
   });
+  const [passwordFocused, setPasswordFocused] = useState(false);
+
+  const [isVisible, setVisible] = useState(false);
+  const toggle = () => {
+    setVisible(!isVisible);
+  };
+
+  const passwordFocusStyle = {
+    borderBottomWidth: '2px',
+    borderColor: '#6d66d4',
+  };
+  const passwordUnfocusStyle = {
+    borderBottomWidth: '2px',
+    borderColor: '#rgb(212 212 216',
+  };
 
   const onSubmit: SubmitHandler<AccountFields> = async (data) => {
     try {
@@ -53,14 +67,8 @@ export function CreateAccount() {
         throw Error(respBody.error + '. Status Code: ' + response.status);
       }
       const { token } = await response.json();
-      // console.log('token');
-      // console.log(token);
-      // localStorage.setItem('wealthFrontToken', token);
       localStorage.setItem('wealthFrontToken', JSON.stringify(token));
       nav('/signup/account-selection');
-      // await new Promise((resolve) => setTimeout(resolve, 1000));
-      // console.log(data);
-      // console.log('getValues: ', getValues());
     } catch (e: unknown) {
       if (e instanceof Error) {
         setError('root', {
@@ -86,13 +94,39 @@ export function CreateAccount() {
           </div>
 
           {/* Password */}
-          <div className="min-h-[96px]">
-            <input
-              {...register('password')}
-              type="text"
-              placeholder="Password"
-              className=" outline-none w-full border-b-2 border-zinc-300 focus:border-[#6d66d4]  text-sm"
-            />
+          <div className="min-h-[96px] ">
+            <div className="flex items-baseline">
+              <input
+                {...register('password')}
+                // type="password"
+                type={!isVisible ? 'password' : 'text'}
+                placeholder="Password"
+                className="  w-full outline-none text-sm"
+                onFocus={() => {
+                  setPasswordFocused(true);
+                }}
+                onBlur={() => {
+                  setPasswordFocused(false);
+                }}
+              />
+              <i>
+                {isVisible ? (
+                  <div onClick={toggle} className="self-center">
+                    <Eye></Eye>
+                  </div>
+                ) : (
+                  <div onClick={toggle} className="self-center">
+                    <EyeSlash></EyeSlash>
+                  </div>
+                )}
+              </i>
+            </div>
+            {passwordFocused && <div style={passwordFocusStyle}></div>}
+            {!passwordFocused && <div style={passwordUnfocusStyle}></div>}
+
+            {/* <div style={passwordFocused ? passwordFocusStyle : passwordUnfocusStyle}></div> */}
+            {/* <div style={passwordFocused ? passwordFocusStyle : passwordUnfocusStyle}></div> */}
+
             {errors.password && <div className="text-[#ED4337]">{errors.password.message}</div>}
             {/* Password Strength Bar */}
             <PasswordStrengthBar className="mt-2" pw={watch('password')}></PasswordStrengthBar>
@@ -100,7 +134,7 @@ export function CreateAccount() {
           <div className="flex justify-center items-center">
             <Button
               customClassNames={twMerge(
-                'w-full text-center flex items-center justify-center',
+                'w-full text-center flex items-center justify-center focus:border-solid focus:border-black	',
                 isSubmitting ? 'disabled:opacity-20 bg-gray-600 cursor-not-allowed' : ''
               )}
               isDisabled={isSubmitting}
@@ -114,6 +148,7 @@ export function CreateAccount() {
           {errors.root && <div className="text-[#ED4337] mt-4">{errors.root.message}</div>}
         </form>
       </Card>
+      {/* <EyeSlash></EyeSlash> */}
     </FlowLayout>
   );
 }
